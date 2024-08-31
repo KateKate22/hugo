@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <!--  -->
+        {{ partial "meta.html" . }}
+        <!--  -->
+        {{ partial "head_includes.html" . }}
+        <style>
+            h2 {
+                font-size: 14pt;
+            }
+            h3 {
+                font-size: 12pt;
+            }
+        </style>
+        <title>{{.Title}}</title>
+    </head>
+    <body data-bs-spy="scroll" data-bs-target="#TableOfContents">
+        <header class="header">
+            <div class="logo">
+                <a href="{{.Site.Params.baseURL}}"> {{partial "logo.html" .}} </a>
+            </div>
+        </header>
+        <div class="container-fluid bd-layout">
+            {{partial "sidebar.html" .}}
+            <main class="bd-main order-1">
+                <div class="bd-toc mt-4 mb-5 my-md-0 ps-xl-3 mb-lg-5 text-muted">
+                    <strong class="d-block h6 my-2 pb-2 border-bottom">Содержание</strong>
+                    {{block "page-toc" .}}{{end}}
+                </div>
+                <div class="bd-content ps-lg-4 mt-4">{{ block "main" . }} {{ end }}</div>
+            </main>
+        </div>
+        {{ partial "scripts.html" . }}
+    </body>
+</html>

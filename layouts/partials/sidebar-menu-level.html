@@ -1,0 +1,25 @@
+<!-- Шаблон для отрисовки уровня бокового меню. -->
+
+{{ $currentPage := .currentPage }}    
+<ul class="list-unstyled mb-0 py-3 pt-md-1">        
+    {{ range .menu }}
+        {{ if .HasChildren }}
+            <li class="{{ if $currentPage.IsMenuCurrent  "main" . }}active{{ end }} mb-1">                                        
+                <button class="btn d-inline-flex align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#{{.Title}}-collapse" aria-expanded="{{$currentPage.HasMenuCurrent  "main" .}}">
+                    {{ .Pre }}
+                    <span>{{ .Name }}</span>
+                </button>
+                <div class="collapse {{ if $currentPage.HasMenuCurrent  "main" . }}show{{ end }}" id="{{.Title}}-collapse">
+                    {{partial "sidebar-menu-level" (dict "menu" .Children "currentPage" $currentPage)}}
+                </div>
+            </li>                
+        {{ else }}
+            <li class="mb-1">
+                <a href="{{ .URL }}index.html" class="{{ if $currentPage.IsMenuCurrent  "main" . }}active{{ end }} d-inline-flex align-items-center rounded">
+                    {{ .Pre }}
+                    <span>{{ .Name }}</span>
+                </a>
+            </li>
+        {{ end }}
+    {{ end }}
+</ul>

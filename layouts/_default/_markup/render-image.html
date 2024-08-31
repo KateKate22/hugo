@@ -1,0 +1,27 @@
+{{ $width := 0 }}
+{{ $height := 0 }}
+{{ $sizeInBytes  := 0 }}
+
+{{ $path := add .Page.RelPermalink (.Destination | safeURL) }}
+{{ if not (fileExists $path) }}
+    {{ $path = printf "%s%s" "static" (.Destination | safeURL) }}
+{{ end }}
+
+{{ if (fileExists $path) }}
+    {{ with (imageConfig $path) }}
+        {{ $width = .Width }}
+        {{ $height = .Height }}
+    {{ end }}
+{{ else }}
+    {{ warnf "<img/> render hook: %q not found" $path }}
+{{ end }}
+
+<img
+  src="{{ .Destination | safeURL }}"
+  alt="{{ .Text }}"
+  loading="lazy"
+  {{ if ne $width 0 }}width="{{ $width }}"{{ end }}
+  {{ if ne $height 0 }}height="{{ $height }}"{{ end }}
+  {{ with .Title}}title="{{ . }}"{{ end }}
+  style="height: auto !important;"
+/>
